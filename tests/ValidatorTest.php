@@ -23,6 +23,10 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
         ];
 
         $validator = new TestInputValidator();
+        $validator->setMessages([
+            'notBlank' => 'Please enter a value'
+        ]);
+
         try {
             $validator->valid($data);
         } catch (InputValidationException $e) {
@@ -31,6 +35,11 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(4, count($errors), 'There should be four errors');
         $this->assertNotEmpty($errors['FirstName'], 'FirstName should be in validation errors');
+        $this->assertEquals(
+            $errors['FirstName'][0],
+            'Please enter a value',
+            'Not blank message should have been updated'
+        );
     }
 }
 

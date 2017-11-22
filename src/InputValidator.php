@@ -3,6 +3,7 @@
 namespace AdvancedLearning\InputValidator;
 
 use AdvancedLearning\InputValidator\Interfaces\MappableModel;
+use const PHP_EOL;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\ValidationException;
 use AdvancedLearning\InputValidator\Exceptions\InputValidationException;
