@@ -1,6 +1,7 @@
 <?php
 
 use AdvancedLearning\InputValidator\Exceptions\InputValidationException;
+use AdvancedLearning\InputValidator\Input;
 use AdvancedLearning\InputValidator\InputValidator;
 use AdvancedLearning\InputValidator\Interfaces\MappableModel;
 use Respect\Validation\Validator as v;
@@ -59,6 +60,30 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(4, count($errors), 'There should be four errors');
     }
+
+    public function testInput()
+    {
+        $data = [
+            'FirstName' => '',
+            'LastName' => 'T',
+            'DateOfBirth' => '2017-09-20'
+        ];
+
+        $input = Input::pick($data, ['FirstName']);
+        $newData = $input->getData();
+
+        $this->assertEquals(1, count($newData), 'Data should only have 1 values');
+        $this->assertTrue(isset($newData['FirstName']), 'Only FirstName key should be present');
+
+        try {
+            $input->validate(new TestInputValidator());
+        } catch (InputValidationException $e) {
+            $errors = $e->getMessages();
+        }
+
+        $this->assertEquals(4, count($errors), 'Should have 4 errors');
+    }
+
 }
 
 class TestInputValidator extends InputValidator
