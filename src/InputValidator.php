@@ -3,7 +3,6 @@
 namespace AdvancedLearning\InputValidator;
 
 use AdvancedLearning\InputValidator\Interfaces\MappableModel;
-use const PHP_EOL;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\ValidationException;
 use AdvancedLearning\InputValidator\Exceptions\InputValidationException;
@@ -47,7 +46,7 @@ abstract class InputValidator
                 // get individual error messages
                 foreach ($e as $validationException) {
                     $this->formatMessage($validationException);
-                    $messages[$field][] = $validationException->getMainMessage();
+                    $messages[$field][] = $validationException->getMessage();
                 }
             }
         }
@@ -95,7 +94,7 @@ abstract class InputValidator
         $type = $e->getId();
 
         if (!empty($this->messages[$type])) {
-            $e->setTemplate($this->messages[$type]);
+            $e->updateTemplate($this->messages[$type]);
         }
 
         return $this;

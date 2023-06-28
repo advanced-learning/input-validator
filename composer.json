@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "respect/validation": "^1.1"
+        "respect/validation": "2.2.4"
     },
     "require-dev": {
         "phpunit/PHPUnit": "^5.7@stable"
