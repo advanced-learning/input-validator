@@ -2,10 +2,10 @@
 
 namespace AdvancedLearning\InputValidator;
 
+use AdvancedLearning\InputValidator\Exceptions\InputValidationException;
 use AdvancedLearning\InputValidator\Interfaces\MappableModel;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\ValidationException;
-use AdvancedLearning\InputValidator\Exceptions\InputValidationException;
 
 /**
  * An interface for creating a validator for a specific model.
@@ -91,10 +91,16 @@ abstract class InputValidator
      */
     protected function formatMessage(ValidationException $e)
     {
-        $type = $e->getId();
+        if (preg_match("/\\\([^\\\]+)$/", get_class($e), $matches)) {
+            $shortClassName = $matches[1];
 
-        if (!empty($this->messages[$type])) {
-            $e->updateTemplate($this->messages[$type]);
+            if (preg_match("/^(.+?)Exception$/", $shortClassName, $matches)) {
+                $type = lcfirst($matches[1]);
+
+                if (!empty($this->messages[$type])) {
+                    $e->updateTemplate($this->messages[$type]);
+                }
+            }
         }
 
         return $this;
