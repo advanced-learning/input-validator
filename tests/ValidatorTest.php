@@ -36,13 +36,13 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
             $fieldMessages = $e->getFieldMessages();
         }
 
-        $this->assertEquals(4, count($errors), 'There should be four errors');
+        $this->assertCount(4, $errors, 'There should be four errors');
         $this->assertNotEmpty($errors['FirstName'], 'FirstName should be in validation errors');
-        $this->assertEquals(2, count($errors['LastName']), 'LastName should have 2 errors');
+        $this->assertCount(2, $errors['LastName'], 'LastName should have 2 errors');
         $this->assertTrue(is_string($fieldMessages['LastName']), 'Last Name should have a single message');
         $this->assertEquals(
-            $errors['FirstName'][0],
             'Please enter a value',
+            $errors['FirstName'][0],
             'Not blank message should have been updated'
         );
     }
